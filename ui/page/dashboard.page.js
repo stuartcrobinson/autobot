@@ -1,5 +1,5 @@
-import Page from './page';
-import AiElement from './aiElement';
+import Page from 'page/page';
+import AiElement from 'test/specs/aiElement';
 
 // var Page = require('./page');
 // var AiElement = require('./aiElement');

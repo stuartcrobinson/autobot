@@ -6,4 +6,8 @@ export default class Page {
 	open(path) {
 		browser.url(path);
 	}
+
+	isLoaded(path) {
+		browser.url(path);
+	}
 }
