@@ -35,8 +35,19 @@ export default class AiElement {
         browser.waitUntil(() => (!browser.isExisting(this.selector)));
     }
 
+    waitForExist() {
+        browser.waitUntil(() => (browser.isExisting(this.selector)));
+    }
+
     isExisting() {
         return browser.isExisting(this.selector);
+    }
+
+    /**
+     * For readability.
+     */
+    isNotExisting() {
+        return !browser.isExisting(this.selector);
     }
 
 
