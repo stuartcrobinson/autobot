@@ -1,8 +1,8 @@
-import AiElement from '../../test/specs/aiElement';
+import L from '../aiElement';
 
 class AlertComp {
 
-    get xCloseIcon() { return new AiElement('i[title="Dismiss alert"]'); }
+    get xCloseIcon() { return new L('i[title="Dismiss alert"]'); }
 
     close() {
         this.xCloseIcon.click();

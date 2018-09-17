@@ -14,11 +14,13 @@
     "babel-preset-stage-0": "^6.3.13",
     "babel-register": "^6.3.13",
     "chai": "^4.1.2",
+    "dateformat": "^3.0.3",
     "fs": "0.0.1-security",
     "npmlog": "^4.1.2",
     "webdriverio": "^4.13.2"
   },
   "devDependencies": {
-    "wdio-mocha-framework": "^0.6.3"
+    "wdio-mocha-framework": "^0.6.3",
+    "wdio-spec-reporter": "^0.1.5"
   }
 }

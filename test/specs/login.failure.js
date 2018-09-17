@@ -1,13 +1,13 @@
-import LoginPage from 'ui/page/login.page';
-import AlertComp from 'ui/component/alert.comp';
-
+import LoginPage from '../../object/page/login.page';
+import AlertComp from '../../object/component/alert.comp';
+ 
 var fs = require('fs');
 
 var expect = require('chai').expect;
 
-describe('loginBadCred', () => {
+describe('login failure', () => {
 
-    it('should display warning for invalid login creds', () => {
+    it('should display warning', () => {
         LoginPage.logIn('stuart.clifford@gmail.com', 'ojfhdud')
 
         LoginPage.invalidLoginWarning.waitForExist();

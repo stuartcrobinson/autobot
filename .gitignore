@@ -1,4 +1,6 @@
 password.txt
+log
+log/*
 
 # https://github.com/webdriverio/webdriverio/blob/master/.gitignore
 
