@@ -64,7 +64,6 @@ typings/
 .env
 
 **/build
-/*.js
 !.eslintrc.js
 package-lock.json
 .DS_Store
