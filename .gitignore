@@ -65,7 +65,6 @@ typings/
 
 **/build
 !.eslintrc.js
-package-lock.json
 .DS_Store
 
 website/.sass-cache/
