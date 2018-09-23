@@ -1,12 +1,10 @@
 import Page from './page';
 import L from '../aiElement';
-
-// var Page = require('./page');
-// var AiElement = require('./aiElement');
+var fs = require('fs');
 
 class LoginPage extends Page {
 
-    asdf(){
+    asdf() {
         console.log('hello')
     }
 
@@ -14,11 +12,16 @@ class LoginPage extends Page {
     get emailInput() { return new L('input.email'); }
     get passwordInput() { return new L('input.password'); }
     get logInButton() { return new L('input[value="Log In"]'); }
-    get invalidLoginWarning() { return new L("//span[contains(text(),'Invalid Email or password.')]"); }
+    get invalidLoginWarningToaster() { return new L("//span[contains(text(),'Invalid Email or password.')]"); }
 
     open() {
         super.open('https://wordsmith.automatedinsights.com/');
         browser.waitUntil(() => (browser.isExisting('input.email')));
+    }
+
+    login() {
+        //TODO this is not a good place to store cred fetching.  just seemed better than tests for now. refactor
+        this.logIn('stuart.clifford@gmail.com', fs.readFileSync('resources/password.txt', 'utf8'))
     }
 
     logIn(email, password) {
@@ -30,7 +33,7 @@ class LoginPage extends Page {
         // this.logInButton.waitForNotExist();  //this can't be here for when we want to test invalid login creds
         // so actions must confirm they're at the right spot BEFORE execution
 
-        
+
         // LoginPage.open();
         // LoginPage.emailInput.setValue(email);
         // LoginPage.passwordInput.setValue(password);

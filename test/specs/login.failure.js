@@ -1,22 +1,25 @@
 import LoginPage from '../../object/page/login.page';
-import AlertComp from '../../object/component/alert.comp';
- 
-var fs = require('fs');
+import ToasterComp from 'object/component/toaster.comp';
 
+var fs = require('fs');
+// var assert = require('assert');
+var assert = require('chai').assert;
 var expect = require('chai').expect;
 
 describe('login failure', () => {
 
     it('should display warning', () => {
+
         LoginPage.logIn('stuart.clifford@gmail.com', 'ojfhdud')
 
-        LoginPage.invalidLoginWarning.waitForExist();
+        LoginPage.invalidLoginWarningToaster.waitForExist();
 
-        expect(LoginPage.invalidLoginWarning.isExisting()).to.be.true;
+        assert(LoginPage.invalidLoginWarningToaster.isExisting(), "Invalid login warning should exist")
 
-        AlertComp.close();
+        ToasterComp.close();
 
-        expect(LoginPage.invalidLoginWarning.isExisting()).to.be.false;
+        assert(!LoginPage.invalidLoginWarningToaster.isExisting(), "Invalid login warning shouldn’t exist")
+
     });
 
 });

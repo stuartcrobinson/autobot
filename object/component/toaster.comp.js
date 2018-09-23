@@ -1,6 +1,6 @@
 import L from '../aiElement';
 
-class AlertComp {
+class ToasterComp {
 
     get xCloseIcon() { return new L('i[title="Dismiss alert"]'); }
 
@@ -10,4 +10,4 @@ class AlertComp {
     }
 }
 
-export default new AlertComp();
+export default new ToasterComp();
