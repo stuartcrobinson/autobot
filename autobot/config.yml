@@ -1,0 +1,106 @@
+--- 
+staging_url    : https://wordsmith-staging.autoi.co
+production_url : https://wordsmith.automatedinsights.com/
+accounts: 
+-   
+  environment  : staging
+  organization : QA - Features On
+  email        : srobinson+featureson@automatedinsights.com
+  password     : awefawef
+  api key      : e9df300200a4be249fd5b166cb63dbbd7111c33d80da60ad082b180a282323a4
+  roles:
+   - User Admin
+   - Customer Manager
+   - Developer
+- 
+  environment  : staging
+  organization : stuartorg1
+  email        : srobinson+stuartorg1@automatedinsights.com
+  password     : awefawef
+  api key      : c6d8cfbe7adb3b3a8684bf5ee15ee1960a314a1a49698e25edb229cee8d445d9
+  roles:
+   - User Admin
+- 
+  environment  : staging
+  organization : stuartorg1
+  email        : srobinson+stuartorg1user1@automatedinsights.com
+  password     : awefawef
+  api key      : 64f14e6cd19cb4c6367ac980ff12e312868d17e9471157fa5b03cbc5868ecc36
+  roles:
+   - ~
+- 
+  environment  : staging
+  organization : stuartorg1
+  email        : srobinson+stuartorg1user2@automatedinsights.com
+  password     : awefawef
+  api key      : 6abdfdd951afe9d25e9aa04b0bb5845999daa3b1cdfe3f49311e7e44c85ebb78
+  roles:
+   - ~
+- 
+  environment  : staging
+  organization : stuartorg1
+  email        : srobinson+stuartorg1_nonadmin1@automatedinsights.com
+  password     : awefawef
+  api key      : ec35d764836644639383dab5806600672db888a70d7960229af7f2b3ee6b0837
+  disabled: true
+  roles:
+   - ~
+- 
+  environment  : staging
+  organization : stuartorg2
+  email        : srobinson+stuartorg2@automatedinsights.com
+  password     : awefawef
+  api key      : 24cda5ee158110c6ef6cf7c0076f8daeff124dfa512922cf422f5c0c2ce1d03e
+  roles:
+   - User Admin
+- 
+  environment  : staging
+  organization : QA - Features On
+  email        : srobinson+featuresoff@automatedinsights.com
+  password     : awefawef
+  api key      : 93fa63858f0ac92a6d99753249c280d3adc7c4515022d8ac316483fd7f7d0ac7
+  roles:
+   - User Admin
+   - Customer Manager
+   - Developer
+- 
+  environment  : production
+  organization : QA Team
+  email        : srobinson@automatedinsights.com
+  password     : awefawef
+  api key      : 70c54e4338312bdfe43f2855b31dabef1d855b5c9070ccb97b5e5308d3c358f3
+  roles:
+   - User Admin
+   - Developer
+   - Limited Customer Manager
+- 
+  environment  : production
+  organization : stuartprodorg1
+  email        : srobinson+stuartprodorg1@automatedinsights.com
+  password     : awefawef
+  api key      : 405a0430bcc9bce7060d5a3f347f92027a9206693ba248ee6a71c78b3e105e9b
+  roles:
+   - User Admin
+-
+  environment  : production
+  organization : stuartprodorg1
+  email        : srobinson+stuartprodorg1user1@automatedinsights.com
+  password     : awefawef
+  api key      : 4d4172e8c8addd4fc424fff424035f46811ca2a2d91d83298f942f6fa2b6f308
+  roles:
+   - ~
+-
+  environment  : production
+  organization : stuartprodorg1
+  email        : srobinson+stuartprodorg1user2@automatedinsights.com
+  password     : awefawef
+  api key      : 833d84f66aa875af62d903c826df43a61cf3f824eafd38298421484a885c09bf
+  roles:
+   - ~
+- 
+  environment  : production
+  organization : Stuart Clifford - QA Candidate
+  email        : stuart.clifford@gmail.com
+  password     : awefawef
+  roles:
+   - User Admin

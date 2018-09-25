@@ -1,12 +1,13 @@
-import LoginPage from '../../object/page/login.page';
-import DashboardPage from '../../object/page/dashboard.page';
-import AlertComp from '../../object/component/alert.comp';
-import Table from '../../object/table';
-const livy = require('../../object/livy');
+import LoginPage from '../object/page/login.page';
+import DashboardPage from '../object/page/dashboard.page';
+import ToasterComp from 'object/component/toaster.comp';
+import Table from '../object/table';
+const livy = require('../object/livy');
 
 var fs = require('fs');
 
 var expect = require('chai').expect;
+var assert = require('chai').assert;
 
 describe('dashboard', () => {
 
@@ -21,7 +22,7 @@ describe('dashboard', () => {
             it('by Project increasing', () => {
                 const values = DashboardPage.table.sortIncreasing('Project').select('Project').getValues();
                 console.log(values);
-                expect(Table.isIncreasing(values), 'Project column should be increasing').to.be.true;
+                assert(Table.isIncreasing(values), 'Project column should be increasing');
             });
             it('by Project decreasing', () => {
                 const values = DashboardPage.table.sortDecreasing('Project').select('Project').getValues();

@@ -23,9 +23,9 @@ module.exports = {
 
     // const file = 'log/' + this.startDate + '/' + this.startTime + ' ' + this.testParentName + ' - ' + this.testname + '.log'
 
-    const dir1 = 'log'
+    const dir1 = 'autobot/log'
 
-    const dir2 = 'log/' + global.testParentDate
+    const dir2 = 'autobot/log/' + global.testParentDate
 
     const file = dir2 + '/' + global.testTime + ' ' + global.testParentTitle + ', ' + global.testTitle + '.log'
 

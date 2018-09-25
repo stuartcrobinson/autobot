@@ -2,7 +2,6 @@ var log = require('npmlog')
 Object.defineProperty(log, 'heading', { get: () => { return new Date().toUTCString() } })
 const livy = require('./livy');
 
-
 /**
  * Wrapped wdio element for reliable interactions. 
  */

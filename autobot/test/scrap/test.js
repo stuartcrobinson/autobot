@@ -1,4 +1,4 @@
-import LoginPage from '../../object/page/login.page';
+import LoginPage from 'object/page/login.page';
 
 var fs = require('fs');
 var expect = require('chai').expect;
@@ -15,7 +15,7 @@ describe('login success', () => {
         // LoginPage.logInButton.click_waitForChange('.container');
         LoginPage.logInButton.click_waitForChange('.devise-links');
 
-        LoginPage.invalidLoginWarning.waitForExist();
+        LoginPage.invalidLoginWarningToaster.waitForExist();
 
 
 

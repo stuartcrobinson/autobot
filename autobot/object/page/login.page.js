@@ -1,6 +1,12 @@
 import Page from './page';
 import L from '../aiElement';
+import { AssertionError } from 'assert';
+
+import Role from '../../object/roles';
+import Environment from '../../object/environments';
+
 var fs = require('fs');
+var assert = require('chai').assert;
 
 class LoginPage extends Page {
 
@@ -14,19 +20,21 @@ class LoginPage extends Page {
     get logInButton() { return new L('input[value="Log In"]'); }
     get invalidLoginWarningToaster() { return new L("//span[contains(text(),'Invalid Email or password.')]"); }
 
-    open() {
+    open(environment = Environment.staging) {
         super.open('https://wordsmith.automatedinsights.com/');
         browser.waitUntil(() => (browser.isExisting('input.email')));
     }
 
-    login() {
-        //TODO this is not a good place to store cred fetching.  just seemed better than tests for now. refactor
-        this.logIn('stuart.clifford@gmail.com', fs.readFileSync('resources/password.txt', 'utf8'))
-    }
 
-    logIn(email, password) {
+    //TODO this is not a good place to store cred fetching.  just seemed better than tests for now. refactor
+    logIn(email, password, environment, roles) {
+
+        
+        assert.isDefined(email, "email should be defined")
+        assert.isDefined(password, "password should be defined")
+
         //TODO how to deal with opens?  declare per test?  embed in certain/all actions?
-        this.open();
+        this.open(environment);
         this.emailInput.setValue(email);
         this.passwordInput.setValue(password);
         this.logInButton.click();

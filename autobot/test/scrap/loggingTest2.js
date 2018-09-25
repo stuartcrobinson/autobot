@@ -1,6 +1,6 @@
 // import MyClass from '../../object/myClass';
 
-const livy = require('../../object/livy');
+const livy = require('object/livy');
 
 
 //to run w/ just mocha:

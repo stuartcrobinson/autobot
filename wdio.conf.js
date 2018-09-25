@@ -144,7 +144,8 @@ exports.config = {
     reporters: ['spec'],
     //
     // Options to be passed to Mocha.
-    // See the full list at http://mochajs.org/
+    // See the full list at 
+    // note:  this is how to run tests by tag: https://github.com/mochajs/mocha/wiki/Tagging
     mochaOpts: {
         ui: 'bdd',
         timeout: 30000,

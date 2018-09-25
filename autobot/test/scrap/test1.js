@@ -1,5 +1,5 @@
 import LoginPage from 'object/page/login.page';
-import AlertComp from 'object/component/alert.comp';
+import ToasterComp from 'object/component/toaster.comp';
 const livy = require('object/livy');
 
 var fs = require('fs');
