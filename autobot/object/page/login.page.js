@@ -1,6 +1,8 @@
 import Page from './page';
 import L from '../aiElement';
 import { AssertionError } from 'assert';
+import ToasterComp from '../component/toaster.comp';
+
 
 import Role from '../../object/roles';
 import Environment from '../../object/environments';
@@ -18,23 +20,23 @@ class LoginPage extends Page {
     get emailInput() { return new L('input.email'); }
     get passwordInput() { return new L('input.password'); }
     get logInButton() { return new L('input[value="Log In"]'); }
-    get invalidLoginWarningToaster() { return new L("//span[contains(text(),'Invalid Email or password.')]"); }
+    // get invalidLoginWarningToaster() { return new L("//span[contains(text(),'Invalid Email or password.')]"); }
+    get toaster_signedOutSuccessfully() { return ToasterComp.withMessage("Signed out successfully."); }
+    get toaster_invalidEmailOrPwd() { return ToasterComp.withMessage("Invalid Email or password."); }
 
     open(environment = Environment.staging) {
         super.open('https://wordsmith.automatedinsights.com/');
         browser.waitUntil(() => (browser.isExisting('input.email')));
     }
 
+    logIn(email, password, url) {
 
-    //TODO this is not a good place to store cred fetching.  just seemed better than tests for now. refactor
-    logIn(email, password, environment, roles) {
 
-        
         assert.isDefined(email, "email should be defined")
         assert.isDefined(password, "password should be defined")
 
         //TODO how to deal with opens?  declare per test?  embed in certain/all actions?
-        this.open(environment);
+        this.open(url);
         this.emailInput.setValue(email);
         this.passwordInput.setValue(password);
         this.logInButton.click();

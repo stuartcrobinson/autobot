@@ -1,4 +1,4 @@
-import LoginPage from 'object/page/login.page';
+import LoginPage from '../../object/page/login.page';
 
 var fs = require('fs');
 var expect = require('chai').expect;
@@ -9,13 +9,20 @@ describe('login success', () => {
 
 
 
+        console.log(browser.options.user);
+        console.log(browser.options.key);
+        console.log(browser.options.mochaOpts);
+        console.log(browser.options.cucumberOpts);  
+        console.log(browser.options.asdf);  
+        console.log(global.user);  
+        console.log(global.user);  
 
-        LoginPage.open();
+        // LoginPage.open();
 
-        // LoginPage.logInButton.click_waitForChange('.container');
-        LoginPage.logInButton.click_waitForChange('.devise-links');
+        // // LoginPage.logInButton.click_waitForChange('.container');
+        // LoginPage.logInButton.click_waitForChange('.devise-links');
 
-        LoginPage.invalidLoginWarningToaster.waitForExist();
+        // LoginPage.invalidLoginWarningToaster.waitForExist();
 
 
 

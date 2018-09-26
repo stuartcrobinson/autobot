@@ -9,18 +9,19 @@ exports.config = {
     // NPM script (see https://docs.npmjs.com/cli/run-script) then the current working
     // directory is where your package.json resides, so `wdio` will be called from there.
     //
+    waffles: 'are delicious',
     specs: [
-        './test/specs/**/*.js'
+        './autobot/test/**/*.js'
     ],
     // define specific suites
     suites: {
         login: [
-            './test/specs/login.success.js',
-            './test/specs/login.failure.js'
+            './autobot/test/login.success.js',
+            './autobot/test/login.failure.js'
         ],
         logging: [
-            './test/specs/loggingTest1.js',
-            './test/specs/loggingTest2.js'
+            './autobot/test/loggingTest1.js',
+            './autobot/test/loggingTest2.js'
         ],
         otherFeature: [
             // ...
@@ -144,7 +145,7 @@ exports.config = {
     reporters: ['spec'],
     //
     // Options to be passed to Mocha.
-    // See the full list at 
+    // See the full list at http://mochajs.org/
     // note:  this is how to run tests by tag: https://github.com/mochajs/mocha/wiki/Tagging
     mochaOpts: {
         ui: 'bdd',
@@ -189,6 +190,43 @@ exports.config = {
 
         global.testParentTime = dateFormat(testDateTime, "hh:MM:ss:lTT");
         global.testParentDate = dateFormat(testDateTime, "yyyymmdd");
+
+
+        //read the wdio's --key argument whose string contains login creds formatted like:
+        //--key 'email=asdf@asdf.com password=mypassword url=https://wordsmithstaging.com'
+        //wdio throws errors if key contais --'s.  so we add them in later, below:
+        var stringArgv = require('string-argv');
+        var yargsParse = require('yargs-parser');
+
+        let argv = stringArgv(browser.options.key);
+
+        for (let i = 0; i < argv.length; i++) {
+            argv[i] = '--' + argv[i]
+        }
+
+        const options = yargsParse(argv);
+
+        console.log("options:");
+        console.log(options);
+        console.log("options.email:");
+        console.log(options.email);
+
+        global.user = {}
+        global.user.email = options.email;
+        global.user.password = options.password;
+        global.user.url = options.url;
+
+
+        console.log(" global.user:");
+        console.log(global.user);
+
+        // import LoginPage from 'autobot/object/page/login.page';
+
+        // var LoginPage = require('autobot/object/page/login.page');
+
+        //who no work D: D: D: 
+
+        // LoginPage.logIn(email=global.user.email, password=global.user.password, global.user.url)
     },
     /**
      * Runs before a WebdriverIO command gets executed.

@@ -7,11 +7,24 @@ const livy = require('./livy');
  */
 export default class L {
 
+
+    static byText(text){
+        return '//*[text()="' + text + '"]'
+    }
+
     constructor(selector) {
         this.selector = selector;
     }
 
     get element() { return browser.element(this.selector); }
+
+    /**
+     * Returns a new L whose selector is the child's selector appended to the parent selector.  So make sure both are xpaths or cssSelectors.
+     * @param {} childSelector 
+     */
+    get(childSelector) {
+        return new L(this.selector + childSelector)
+    }
 
     toString() {
         return this.selector;
@@ -25,6 +38,12 @@ export default class L {
         livy.log('click: ' + this.selector);
         browser.waitForExist(this.selector);
         browser.click(this.selector)
+    }
+
+    hover() {
+        livy.log('hover: ' + this.selector);
+        browser.waitForExist(this.selector);
+        browser.moveToObject(this.selector)
     }
 
     click_waitForChange(indicatorSelector) {
