@@ -1,4 +1,4 @@
-import LoginPage from '../object/page/login.page';
+import LoginPage from '../../object/page/login.page';
 import ToasterComp from 'object/component/toaster.comp';
 
 var fs = require('fs');

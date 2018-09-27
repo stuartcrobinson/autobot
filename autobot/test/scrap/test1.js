@@ -1,6 +1,7 @@
-import LoginPage from 'object/page/login.page';
-import ToasterComp from 'object/component/toaster.comp';
-const livy = require('object/livy');
+// import LoginPage from 'object/page/login.page';
+// import ToasterComp from 'object/component/toaster.comp';
+const livy = require('../../object/livy');
+
 
 var fs = require('fs');
 
@@ -12,23 +13,23 @@ describe('dashboard', () => {
         // LoginPage.logIn('stuart.clifford@gmail.com', fs.readFileSync('resources/password.txt', 'utf8'))
     });
 
-    describe('sort table', () => {
+    describe('sort table #what', () => {
 
-        describe('Projects ', () => {
+        describe('Projects #why', () => {
 
-            it('1. by Project', () => {
+            it('1. by Project #where', () => {
                 browser.pause(100);
                 livy.log()
             });
-            it('3. by Created', () => {
+            it('2. by Created @on', () => {
                 browser.pause(100);
                 livy.log()
             });
-            it('4. by project', () => {
+            it('3. by project', () => {
                 browser.pause(100);
                 livy.log()
             });
-            it('2. by Last Edited', () => {
+            it('4. by Last Edited', () => {
                 browser.pause(100);
                 livy.log()
             });
@@ -40,7 +41,7 @@ describe('dashboard', () => {
                 browser.pause(100);
                 livy.log()
             });
-            it('2. d by Last Edited', () => {
+            it('2. d by Last Edited @on', () => {
                 browser.pause(100);
                 livy.log()
             });

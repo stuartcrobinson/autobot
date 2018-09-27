@@ -2,8 +2,22 @@ import Page from './page';
 import L from '../aiElement';
 import Table from '../table';
 
-// var Page = require('./page');
-// var AiElement = require('./aiElement');
+
+class DownloadsTable extends Table {
+
+    constructor() {
+        super();
+    }
+
+    //should Table be a comp?  and should all comps have a waitToLoad function?  but how to standardize...
+    waitToLoad(){
+
+        new L('//div[text()="Total Narratives"]').waitForExist();
+
+        //not sure if this works or is accurate.  should replace with waitForStableDom() <-- need to write
+        new L('.spinner').waitForNotExist();
+    }
+}
 
 class DashboardPage extends Page {
 
@@ -14,26 +28,13 @@ class DashboardPage extends Page {
     get projectsTabLink() { return new L('//a[text()="Projects"]'); }
     get downloadsTabLink() { return new L('//a[text()="Downloads"]'); }
 
-
-    // get projectColumnHeader()  { return new AiElement('//div[text()="Project"]'); }
-    // get lastEditedColumnHeader()  { return new AiElement('//div[text()="Last Edited"]'); }
-    // get createdColumnHeader()  { return new AiElement('//div[text()="Created"]'); }
-
-    // get createdColumnHeader()  { return new AiElement('//div[text()="Created"]'); }
-
     get table () { return new Table();}
 
-    get projectsTable() {
-        return new Table()
-            .setColumns('Project', 'Last Edited', 'Created')
-            .setSearchSelector('#search-input')
-            .setCheckboxSelector('.checkbox-input');
-    }
 
     get downloadsTable() {
-        return new Table()
-            .setColumns('Project', 'Template', 'Total Narratives', 'Created', 'Status', 'Actions')
-            .setSearchSelector('#search-input');
+
+        return new DownloadsTable();
+
     }
 
 

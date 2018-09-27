@@ -1,73 +1,73 @@
-import LoginPage from '../object/page/login.page';
-import DashboardPage from '../object/page/dashboard.page';
-import ToasterComp from 'object/component/toaster.comp';
+import loginPage from '../object/page/login.page';
+import sidebarComp from '../object/component/sidebar.comp';
+import HeaderComp from '../object/component/header.comp';
+import ToasterComp from '../object/component/toaster.comp';
+import dashboardPage from '../object/page/dashboard.page';
+import createAProjectPage from '../object/page/createAProject.page';
 import Table from '../object/table';
-const livy = require('../object/livy');
 
 var fs = require('fs');
-
-var expect = require('chai').expect;
+// var assert = require('assert');
 var assert = require('chai').assert;
+var expect = require('chai').expect;
 
-describe('dashboard', () => {
+describe('Dashboard', () => {
 
     before(() => {
-        LoginPage.logIn('stuart.clifford@gmail.com', fs.readFileSync('resources/password.txt', 'utf8'))
+        loginPage.logIn(global.user.email, global.user.password, global.user.url)
     });
 
-    describe('sort table', () => {
+    it('"New Project" button loads the "Create a Project" input table page', () => {
+        dashboardPage.newProjectButton.click();
+        createAProjectPage.createProjectButton.waitForExist();
+        expect(browser.getTitle()).to.equal('New Project | Wordsmith');
+        browser.back();
+        dashboardPage.newProjectButton.waitForExist();
+    });
+
+    describe('Sort table', () => {
 
         describe('Projects ', () => {
 
             it('by Project increasing', () => {
-                const values = DashboardPage.table.sortIncreasing('Project').select('Project').getValues();
-                console.log(values);
+                //TODO refactor this stuff to avoid column strings.  do this instead;
+                //dashboardPage.projectsTable.projectColumn.sortIncreasing();
+                //const values = dashboardPage.projectsTable.projectColumn.getValues()
+                //or
+                //const values = dashboardPage.projectsTable.projectColumn.sortIncreasing().getValues()
+                //wait no this approach falls apart when we want to get col1's value where col2=x
+
+                const values = dashboardPage.table.sortIncreasing('Project').select('Project').getValues();
+                // console.log(values);
                 assert(Table.isIncreasing(values), 'Project column should be increasing');
             });
             it('by Project decreasing', () => {
-                const values = DashboardPage.table.sortDecreasing('Project').select('Project').getValues();
-                console.log(values);
+                const values = dashboardPage.table.sortDecreasing('Project').select('Project').getValues();
+                // console.log(values);
                 expect(Table.isDecreasing(values), 'Project column should be increasing').to.be.true;
             });
-            it('by Last Edited, increasing', () => {
-                const values = DashboardPage.table.sortIncreasing('Last Edited').select('Last Edited').getValues();
-                console.log(values);
-                expect(Table.isIncreasing(values), 'Last Edited column should be increasing').to.be.true;
-            });
-            it('by Last Edited, decreasing', () => {
-                const values = DashboardPage.table.sortDecreasing('Last Edited').select('Last Edited').getValues();
-                console.log(values);
-                expect(Table.isDecreasing(values), 'Last Edited column should be decreasing').to.be.true;
-            });
-            it('4. by project', () => {
-                browser.pause(100);
-                livy.log()
-            });
-            it('2. by Last Edited', () => {
-                browser.pause(100);
-                livy.log()
-            });
-
         });
-        describe('A Downloads', () => {
 
-            it('1. d by Project', () => {
-                browser.pause(100);
-                livy.log()
-            });
-            it('2. d by Last Edited', () => {
-                browser.pause(100);
-                livy.log()
-            });
-            it('3. d by Created', () => {
-                browser.pause(100);
-                livy.log()
-            });
-            it('4. d by project', () => {
-                browser.pause(100);
-                livy.log()
+        describe('Downloads ', () => {
+
+
+            it('should open', () => {
+                dashboardPage.downloadsTabLink.click();
+                dashboardPage.downloadsTable.waitToLoad();
             });
 
+
+            it('by Project increasing', () => {
+                const values = dashboardPage.table.sortIncreasing('Project').select('Project').getValues();
+                // console.log(values);
+                assert(Table.isIncreasing(values), 'Project column should be increasing');
+            });
+            it('by Project decreasing', () => {
+                const values = dashboardPage.table.sortDecreasing('Project').select('Project').getValues();
+                // console.log(values);
+                expect(Table.isDecreasing(values), 'Project column should be increasing').to.be.true;
+            });
         });
     });
+
 });

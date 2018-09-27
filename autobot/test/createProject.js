@@ -8,19 +8,24 @@ var fs = require('fs');
 var assert = require('chai').assert;
 var expect = require('chai').expect;
 
-describe('Login @on @off', () => {
+
+/*
+
+TODO
+
+
+*/
+
+describe('Create project', () => {
 
     before(() => {
-        // Agent.deploy(environment = Environment.staging, roles = [Role.noRole]);
-        // LoginPage.logIn(global.agent, password = 'wrong_password_fdiusy')
-
-        //TODO - figure out how to put this in wdio.conf.js
         LoginPage.logIn(global.user.email, global.user.password, global.user.url)
-
     });
 
-    it('should succeed with good creds', () => {
-        expect(!LoginPage.logInButton.isExisting(), 'Login button should be gone.');
+    it('from Create CSV', () => {
+    });
+
+    it('from Upload CSV', () => {
     });
 
     it('should logout successfully', () => {

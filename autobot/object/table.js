@@ -1,5 +1,7 @@
 import L from './aiElement';
 const livy = require('./livy');
+const cheerio = require('cheerio')
+
 
 
 export default class Table {
@@ -49,8 +51,8 @@ then combine all the timespan groups
 
 
     static isIncreasing(values) {
-        console.log("need to consider these: ");
-        console.log(values);
+        // console.log("need to consider these: ");
+        // console.log(values);
 
 
         for (var i = 0; i < values.length - 1; i++) {
@@ -186,61 +188,32 @@ then combine all the timespan groups
 
         const colNum = this.getColNum(colName);
 
-        livy.log("colname: " + colName + ", colNum: " + colNum);
+        // livy.log("colname: " + colName + ", colNum: " + colNum);
 
         return this.getValuesByColNum(colNum);
     }
 
     getValuesByColNum(colNum) {
         //2.  get elements at that td level
-        // const columnSpans = browser.elements('tr.table-row > td:nth-of-type(' + colNum + ') * div.flex-column > span')
-        // const selector = 'tr.table-row > td:nth-of-type(' + colNum + ') * div.flex-column > span'
-        // livy.log("selector: ");
-        // livy.log(selector)
-        // const columnSpans = $$('tr.table-row > td:nth-of-type(' + colNum + ') * div.flex-column > span')
 
-        //TODO need to use xpath instead:
-        //   //tr[contains(@class, "table-row")]/td[1]//span
-
-        //NO, that doens't work either.  we need to get a list off all the row cells.  then for each, get the first span
-
-        const selector = '//tr[contains(@class, "table-row")]/td[' + colNum + ']//span'
-        livy.log("selector: ");
-        livy.log(selector)
-        const colTds = $$(selector)
-
-        //TODO - now, get first span per td
-
-
-
-        livy.log("columnSpans length: ");
-        livy.log(columnSpans.length)
-
-        //xpath vs cssselector
-        // //tr[contains(@class, "table-row")]/td[1]//div[contains(@class, "flex-column")]/span)
-        // tr.table-row > td:nth-of-type(1) * div.flex-column > span
-
-        //3.  get text for those elements.  return array.
-        // const colValues = columnSpans.forEach(div => {
-        //     return div.getText();
-        // });
-
-
-        // livy.log("colnum: " + colNum);
-        // livy.log("columnSpans: " + columnSpans);
-        // livy.log("columnSpans.length: " + columnSpans.length);
-
+        const selector = '//tr[contains(@class, "table-row")]/td[' + colNum + ']'
+        const tds = $$(selector)
 
         let colValues = [];
-        for (var i = 0; i < columnSpans.length; i++) {
 
-            const text = columnSpans[i].getText();
-            // livy.log(text);
+        for (var i = 0; i < tds.length; i++) {
 
-            colValues.push(text);
+            const html = tds[i].getHTML();
+
+            const $ = cheerio.load(html);
+
+            const firstSpanText = $('span').text();
+
+            colValues.push(firstSpanText);
         }
 
         return colValues;
+
     }
 
     getValues() {
@@ -259,59 +232,11 @@ then combine all the timespan groups
         // var headers = browser.elements('th > div');
         var headers = $$('th > div');
 
-        // livy.log("headers");
-        // livy.log(typeof headers)
-
-        // livy.log(headers[0].getText());
-        // livy.log(headers[1].getText());
-
-
-        // // for (var propName in headers) {
-        // //     let propValue = headers[propName]
-
-        // //     console.log(7 + " " + propName, propValue);
-        // // }
-
-
-        // // var myStringArray = ["Hello", "World"];
-        // var arrayLength = headers.length;
-        // for (var j = 0; j < arrayLength; j++) {
-        //     const header = headers[j];
-        //     livy.log("header: " + header)
-        //     livy.log("??????????header: " + header.getText())
-
-        //     livy.log(typeof header)
-
-
-        //     for (var propName in header) {
-        //         let propValue = header[propName]
-
-        //         livy.log(7 + " " + propName + " " + propValue);
-        //     }
-        //     //Do something
-        // }
-
-
-        // // for (var header in headers) {
-
-        // //     livy.log("header: " + header)
-        // //     livy.log(typeof header)
-
-
-        // //     for (var propName in header) {
-        // //         let propValue = header[propName]
-
-        // //         livy.log(7 + " " + propName + " " + propValue);
-        // //     }
-
-        // //     // livy.log(header.getText());
-        // // }
-
         let foundIt = false;
         let i = 0;
         for (; i < headers.length; i++) {
             const headerText = headers[i].getText();
-            livy.log(headerText);
+            // livy.log(headerText);
             if (colName === headers[i].getText()) {
                 foundIt = true;
                 break;
