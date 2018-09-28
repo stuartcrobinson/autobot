@@ -17,7 +17,7 @@ class LoginPage extends Page {
     }
 
 
-    get emailInput() { return new L('input.email'); }
+    get emailInput() { return new L('input.waffle'); }
     get passwordInput() { return new L('input.password'); }
     get logInButton() { return new L('input[value="Log In"]'); }
     // get invalidLoginWarningToaster() { return new L("//span[contains(text(),'Invalid Email or password.')]"); }

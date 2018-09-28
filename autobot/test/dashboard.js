@@ -49,13 +49,11 @@ describe('Dashboard', () => {
         });
 
         describe('Downloads ', () => {
-
-
+            
             it('should open', () => {
                 dashboardPage.downloadsTabLink.click();
                 dashboardPage.downloadsTable.waitToLoad();
             });
-
 
             it('by Project increasing', () => {
                 const values = dashboardPage.table.sortIncreasing('Project').select('Project').getValues();
