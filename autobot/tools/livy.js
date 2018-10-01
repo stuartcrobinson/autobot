@@ -117,7 +117,7 @@ module.exports = {
     /*    style="position:fixed;top:0;right:0;width:600;border:1px solid blue"    */
 
     html += '<img src="" id="image" style="position:fixed;top:0;right:0;height:50%;border:1px solid blue"/>'
-    // html += '<iframe src="" id="iframe" style="position:fixed;bottom:0;right:0;height:50%;border:1px solid blue"/>'
+    html += '<iframe src="" id="iframe" style="position:fixed;bottom:0;right:0;height:50%;border:1px solid blue"></iframe>'
 
     fs.appendFileSync(this.getFile(), html + os.EOL);
   },
