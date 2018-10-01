@@ -96,28 +96,13 @@ module.exports = {
     fs_extra.mkdirsSync(this.getReportDir());
     fs_extra.mkdirsSync(this.getEventScreenshotsDir());
 
-    //        let html = `<!doctype html><style>body{background-color:#f5f5f5}</style><img src=${imageClickablePath} width=900>`
     var html = '<!doctype html><style>body{background-color:#f5f5f5}</style>' + os.EOL;
 
+    /*    style="position:fixed;top:0;right:0;width:600;border:1px solid blue"    */
 
-    /*
-    style="position:fixed;top:0;right:0;width:600;border:1px solid blue"
-    */
-
-    html += '<img src="default_image.jpg" id="image" style="position:fixed;top:0;right:0;width:700px;border:1px solid blue"/>'
-
-
+    html += '<img src="" id="image" style="position:fixed;top:0;right:0;width:700px;border:1px solid blue"/>'
 
     fs.appendFileSync(this.getFile(), html + os.EOL);
-
-    // fs_extra.mkdirsSync(this.getErrorScreenshotsDir());
-
-    // if (!fs.existsSync(dir1)) {
-    //   fs.mkdirSync(dir1);
-    // }
-    // if (!fs.existsSync(dir2)) {
-    //   fs.mkdirSync(dir2);
-    // }
   },
 
   getFile: function () {
@@ -134,11 +119,35 @@ module.exports = {
 
   },
 
-  logAction: function (message, style) {
+
+  convertNpmColorsToCss: function(style){
+    var htmlStyle = '';
 
     if (!style) {
       style = passthrough;
     }
+    else {
+
+      console.log(style);
+      console.log(style._styles);
+      console.log("style: " + style);
+
+      var styles = style._styles;
+
+      if (styles.includes('red')) {
+        htmlStyle += "color:red;"
+      } else if (styles.includes('green')) {
+        htmlStyle += "color:green;"
+      }
+      if (styles.includes('bold')) {
+        htmlStyle += "font-weight:bold;"
+      }
+    }
+    return htmlStyle;
+  },
+
+  logAction: function (message, style) {
+    var htmlStyle = this.convertNpmColorsToCss(style);
 
     var dateFormat = require('dateformat');
 
@@ -154,8 +163,6 @@ module.exports = {
 
 
     var screenshotId = this.getScreenshotId(currDate, currTime, message);
-
-
 
     browser.saveScreenshot(this.getEventScreenshotFileAbsPath(screenshotId));
 
@@ -176,7 +183,7 @@ module.exports = {
 
 
     var html = '<span onmouseover="document.images[\'image\'].src=\'' + this.getEventScreenshotFileRelPath(screenshotId) + '\';" onmouseout="document.images[\'image\'].src=\'\';"/>'
-      + entities.encode(currDate + ' ' + currTime + "> " + message)
+      + entities.encode(currDate + ' ' + currTime + '> ') + `<span style="${htmlStyle}">${entities.encode(message)}</span>`
       + '</span><br/>'
 
     //TODO start here!!!!!!!!!! might work maybe not - prob not
@@ -200,6 +207,32 @@ module.exports = {
       }
     }
   },
+  logFail: function (type, message, stack) {
+
+    var html = '<span onmouseover="document.images[\'image\'].src=\'' + this.getEventScreenshotFileRelPath(screenshotId) + '\';" onmouseout="document.images[\'image\'].src=\'\';"/>'
+      + entities.encode(currDate + ' ' + currTime + "> " + message)
+      + '</span><br/>'
+
+    //TODO start here!!!!!!!!!! might work maybe not - prob not
+
+
+
+    // fs.appendFileSync(this.getFile(), entities.encode(currDate + ' ' + currTime + "> " + message) + "<br/>" + os.EOL);
+    fs.appendFileSync(this.getFile(), html + os.EOL);
+
+    this.logReportError(type, message, stack);
+
+
+  },
+  logReportError: function (type, message, stack) {
+    var html = ''//`<span style="font-family:monospace"><span style="font-weight:bold">${entities.encode(type)}:</span><span style="color:red">${entities.encode(message)}</span><br/>${os.EOL}`
+    html += `<span style="font-family:monospace;color:red"><pre>${entities.encode(stack)}</pre></span><br/>`
+    // html += '</span>'
+
+
+    fs.appendFileSync(this.getFile(), html + os.EOL);
+
+  },
 
   logErrorImage() {
     // <img src=${imageClickablePath} width=900></img>
@@ -213,6 +246,13 @@ module.exports = {
       style = passthrough;
     }
 
+    var htmlStyle = this.convertNpmColorsToCss(style);
+
+    //TODO start here -- adding formatting to html report.  supporrting colors and spacing 
+
+    var html = '<span onmouseover="document.images[\'image\'].src=\'' + this.getEventScreenshotFileRelPath(screenshotId) + '\';" onmouseout="document.images[\'image\'].src=\'\';"/>'
+      + entities.encode(currDate + ' ' + currTime + '> ') + `<span style="${htmlStyle}">${entities.encode(message)}</span>`
+      + '</span><br/>'
     // fs.appendFileSync(file, message + os.EOL);
     fs.appendFileSync(this.getFile(), entities.encode(message) + "<br/>" + os.EOL);
 
@@ -235,8 +275,11 @@ module.exports = {
   logPassed: function () {
     this.logAction('PASS', colors.green.bold);
   },
-  logFailed: function () {
+  logFailed: function (test) {
     this.logAction('FAIL', colors.red.bold);
+    this.logReportError(test.err.type, test.err.message, test.err.stack);
+
+    // this.logFail(test.err.type, test.err.message, test.err.stack);
   },
 
 

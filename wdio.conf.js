@@ -103,7 +103,8 @@ exports.config = {
     coloredLogs: true,
     //
     // Warns when a deprecated command is used
-    deprecationWarnings: true,
+    // temporarily disabling cos moveTo deprecated but no replacement
+    deprecationWarnings: false,
     //
     // If you only want to run your tests until a specific amount of tests have failed use
     // bail (default is 0 - don't bail, run all tests).
@@ -421,64 +422,18 @@ exports.config = {
             return;
         }
         else {
-            livy.logFailed();
+            livy.logFailed(test);
         }
 
-        // // var dateFormat = require('dateformat');
-        // var fs = require('fs')
-
-        // const dir1 = 'autobot/log'
-        // const dir2 = 'autobot/log/' + global.specDate
-        // let file = dir2 + '/' + global.testCaseTime + ' ' + test.parent + ', ' + test.title + '.png'
-        // file = file.replace(/\s/g, '_');
-
-        // if (!fs.existsSync(dir1)) {
-        //     fs.mkdirSync(dir1);
-        // }
-        // if (!fs.existsSync(dir2)) {
-        //     fs.mkdirSync(dir2);
-        // }
-
-        // const errorImageFile = livy.getErrorScreenshotFileAbsPath(); //testCaseSpacelessName
-
-        // // get current test title and clean it, to use it as file name
-        // var filename = encodeURIComponent(test.title.replace(/\s+/g, '-'));
-        // // build file path
-        // var filePath = this.screenshotPath + filename + '.png';
         // // save screenshot
         browser.saveScreenshot(livy.getErrorScreenshotFileAbsPath());
 
 
-        const imageClickablePath = 'file://' + path.resolve(livy.getErrorScreenshotFileAbsPath());
+        const reportClickablePath = 'file://' + path.resolve(livy.getFile());
 
-        console.log('\n\tScreenshot location:', imageClickablePath, '\n');
+        console.log('\n\tReport:', reportClickablePath, '\n');
 
         livy.logErrorImage();
-
-
-
-        // let html = `<!doctype html><style>body{background-color:#f5f5f5}</style><img src=${imageClickablePath} width=900>`
-
-        // html = html + "<br/> \n" + test.err.stack.replace(/(?:\r\n|\r|\n)/g, '<br>');
-        // html = html + "<br/> <br/> \nduration: " + test.duration;
-        // html = html + "\n<br/><br/><br/>\n" + global.livyLog;
-
-
-        // let htmlfile = dir2 + '/' + global.testCaseTime + ' ' + test.parent + ', ' + test.title + '.html'
-        // htmlfile = htmlfile.replace(/\s/g, '_');
-
-        // fs.appendFileSync(htmlfile, html);
-
-        // const htmlReportPath = 'file://' + path.resolve(htmlfile);
-
-
-        // console.log('\n\tReport location:', htmlReportPath, '\n');
-
-
-        //now save file
-
-        // let htmlErr = test.err.stack.replace(/(?:\r\n|\r|\n)/g, '<br>');
-
 
         if (lifecycleSpam) {
 

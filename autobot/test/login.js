@@ -20,29 +20,29 @@ describe('Login @on @off', () => {
     });
 
     it('should succeed with good creds', () => {
-        expect(!LoginPage.logInButton.isExisting(), 'Login button should be gone.');
+        assert.isFalse(!LoginPage.logInButton.isExisting(), 'Login button should be gone.');//TODO remove  "!"" - moved to trigger fail
     });
 
-    it('should logout successfully', () => {
-        SidebarComp.settingsLink.hover();
-        SidebarComp.settingsMenu.SignOutLink.click();
+    // it('should logout successfully', () => {
+    //     SidebarComp.settingsLink.hover();
+    //     SidebarComp.settingsMenu.SignOutLink.click();
 
-        LoginPage.toaster_signedOutSuccessfully.waitForExist();
-        LoginPage.toaster_signedOutSuccessfully.close();
-        LoginPage.toaster_signedOutSuccessfully.waitForNotExist();
+    //     LoginPage.toaster_signedOutSuccessfully.waitForExist();
+    //     LoginPage.toaster_signedOutSuccessfully.close();
+    //     LoginPage.toaster_signedOutSuccessfully.waitForNotExist();
 
-        assert(!LoginPage.logInButton.isExisting(), 'Login button should exist.');      //TODO remove "!"" - there to trigger fail
-    });
+    //     assert(!LoginPage.logInButton.isExisting(), 'Login button should exist.');      //TODO remove "!"" - there to trigger fail
+    // });
 
-    it('should fail with warning with bad creds', () => {
+    // it('should fail with warning with bad creds', () => {
 
-        LoginPage.logIn(global.user.email, 'wrong_password_fdiusy')
+    //     LoginPage.logIn(global.user.email, 'wrong_password_fdiusy')
 
-        LoginPage.toaster_invalidEmailOrPwd.waitForExist();
-        LoginPage.toaster_invalidEmailOrPwd.close();
-        LoginPage.toaster_invalidEmailOrPwd.waitForNotExist();
+    //     LoginPage.toaster_invalidEmailOrPwd.waitForExist();
+    //     LoginPage.toaster_invalidEmailOrPwd.close();
+    //     LoginPage.toaster_invalidEmailOrPwd.waitForNotExist();
 
-        assert(!LoginPage.toaster_invalidEmailOrPwd.isExisting(), "Invalid login warning should be gone.")
-    });
+    //     assert(!LoginPage.toaster_invalidEmailOrPwd.isExisting(), "Invalid login warning should be gone.")
+    // });
 
 });
