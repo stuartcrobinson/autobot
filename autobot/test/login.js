@@ -1,7 +1,7 @@
-import LoginPage from '../object/page/login.page';
-import SidebarComp from '../object/component/sidebar.comp';
-import HeaderComp from '../object/component/header.comp';
-import ToasterComp from '../object/component/toaster.comp';
+import LoginPage from '../object/wordsmith/page/login.page';
+import SidebarComp from '../object/wordsmith/component/sidebar.comp';
+import HeaderComp from '../object/wordsmith/component/header.comp';
+import ToasterComp from '../object/wordsmith/component/toaster.comp';
 
 var fs = require('fs');
 // var assert = require('assert');
@@ -31,7 +31,7 @@ describe('Login @on @off', () => {
         LoginPage.toaster_signedOutSuccessfully.close();
         LoginPage.toaster_signedOutSuccessfully.waitForNotExist();
 
-        assert(LoginPage.logInButton.isExisting(), 'Login button should exist.');
+        assert(!LoginPage.logInButton.isExisting(), 'Login button should exist.');      //TODO remove "!"" - there to trigger fail
     });
 
     it('should fail with warning with bad creds', () => {

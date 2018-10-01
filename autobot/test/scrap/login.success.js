@@ -1,6 +1,6 @@
 import LoginPage from '../../object/page/login.page';
-import Role from '../../object/roles';
-import Environment from '../../object/environments';
+import Role from '../../object/wordsmith/roles';
+import Environment from '../../object/wordsmith/environments';
 
 const autobot = require('../../autobot');
 

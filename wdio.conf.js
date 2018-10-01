@@ -1,3 +1,7 @@
+var path = require("path");
+
+lifecycleSpam = false
+
 exports.config = {
 
     //
@@ -11,7 +15,9 @@ exports.config = {
     //
     waffles: 'are delicious',
     specs: [
-        './autobot/test/**/*.js'
+        // './autobot/test/**/*.js'
+        './autobot/test/dashboard.js',
+        './autobot/test/login.js'
     ],
     // define specific suites
     suites: {
@@ -22,6 +28,20 @@ exports.config = {
         logging: [
             './autobot/test/loggingTest1.js',
             './autobot/test/loggingTest2.js'
+        ],
+        testing: [
+            './test/waitForStableDom.js',
+            './autobot/test/scrap/test1.js',
+            './autobot/test/dashboard.js',
+            './autobot/test/login.js'
+        ],
+        //parallel testing test
+        pt: [
+            './autobot/test/scrap/pt1.js',
+            './autobot/test/scrap/pt2.js',
+            './autobot/test/scrap/pt3.js',
+            './autobot/test/scrap/pt4.js',
+            './autobot/test/scrap/pt5.js',
         ],
         otherFeature: [
             // ...
@@ -165,17 +185,80 @@ exports.config = {
      * @param {Object} config wdio configuration object
      * @param {Array.<Object>} capabilities list of capabilities details
      */
-    // onPrepare: function (config, capabilities) {
-    // },
+    onPrepare: function (config, capabilities) {
+        if (lifecycleSpam) {
+
+            console.log("stuart onPrepare");
+
+            // for (var propName in config) {
+            //     let propValue = config[propName]
+
+            //     console.log(14 + " onPrepare config  -  " + propName, propValue);
+            // }
+
+            for (var propName in capabilities) {
+                let propValue = capabilities[propName]
+
+                console.log(12 + "onPrepare capabilities  -  " + propName, propValue);
+            }
+
+            global.onPrepare = "onPrepare"
+        }
+    },
     /**
      * Gets executed just before initialising the webdriver session and test framework. It allows you
      * to manipulate configurations depending on the capability or spec.
+     * 
+     * This is executed in a specific test cases's thread (session?) - stuart
      * @param {Object} config wdio configuration object
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {Array.<String>} specs List of spec file paths that are to be run
      */
     beforeSession: function (config, capabilities, specs) {
         global.livyDoDisplay = true;
+
+        var dateFormat = require('dateformat');
+
+        const testParentDateTime = new Date();
+
+        global.specTime = dateFormat(testParentDateTime, "hh:MM:sstt");
+        global.specDate = dateFormat(testParentDateTime, "yyyymmdd");
+        //TODO - open an issue with WDIO or ask question.  "specs" is always singular ...
+        global.specFilePath = specs[0]
+
+        const livy = require('./autobot/tools/livy')
+        livy.initialize();
+
+
+
+        if (lifecycleSpam) {
+
+            console.log("stuart beforeSession");
+
+            // for (var propName in config) {
+            //     let propValue = config[propName]
+
+            //     console.log(11 + " beforeSession config  -  " + propName, propValue);
+            // }
+
+            for (var propName in capabilities) {
+                let propValue = capabilities[propName]
+
+                console.log(12 + "beforeSession capabilities  -  " + propName, propValue);
+            }
+
+            for (var propName in specs) {
+                let propValue = specs[propName]
+
+                console.log(13 + " beforeSession specs  -  " + propName, propValue);
+            }
+
+            global.beforeSession = "beforeSession"
+
+            console.log("in beforeSession, global.beforeSession: " + global.beforeSession);
+            console.log("in beforeSession, global.onPrepare: " + global.onPrepare);
+        }
+
     },
     /**
      * Gets executed before test execution begins. At this point you can access to all global
@@ -184,14 +267,6 @@ exports.config = {
      * @param {Array.<String>} specs List of spec file paths that are to be run
      */
     before: function (capabilities, specs) {
-        var dateFormat = require('dateformat');
-
-        const testDateTime = new Date();
-
-        global.testParentTime = dateFormat(testDateTime, "hh:MM:ss:lTT");
-        global.testParentDate = dateFormat(testDateTime, "yyyymmdd");
-
-
         //read the wdio's --key argument whose string contains login creds formatted like:
         //--key 'email=asdf@asdf.com password=mypassword url=https://wordsmithstaging.com'
         //wdio throws errors if key contais --'s.  so we add them in later, below:
@@ -206,27 +281,37 @@ exports.config = {
 
         const options = yargsParse(argv);
 
-        console.log("options:");
-        console.log(options);
-        console.log("options.email:");
-        console.log(options.email);
+        // console.log("options:");
+        // console.log(options);
+        // console.log("options.email:");
+        // console.log(options.email);
 
         global.user = {}
         global.user.email = options.email;
         global.user.password = options.password;
         global.user.url = options.url;
 
+        if (lifecycleSpam) {
+            console.log("in before, global.beforeSession: " + global.beforeSession);
+            console.log("in before, global.onPrepare: " + global.onPrepare);
 
-        console.log(" global.user:");
-        console.log(global.user);
+            console.log("  before specs =   " + specs);
+            console.log("  before specs[0] =   " + specs[0]);
+            console.log("  before specs[1] =   " + specs[1]);
 
-        // import LoginPage from 'autobot/object/page/login.page';
+            for (var propName in specs) {
+                let propValue = specs[propName]
 
-        // var LoginPage = require('autobot/object/page/login.page');
+                console.log(6 + "  before specs  -   " + propName, propValue);
+            }
 
-        //who no work D: D: D: 
+            for (var propName in capabilities) {
+                let propValue = capabilities[propName]
 
-        // LoginPage.logIn(email=global.user.email, password=global.user.password, global.user.url)
+                console.log(5 + "   before capabilities  -   " + propName, propValue);
+            }
+        }
+
     },
     /**
      * Runs before a WebdriverIO command gets executed.
@@ -237,25 +322,73 @@ exports.config = {
     // },
 
     /**
-     * Hook that gets executed before the suite starts
+     * Hook that gets executed before the suite starts.
+     * 
+     * TODO - this doesn't make sense.  it's getting run before every spec in a suite.  post on SO or wdio project or something.
      * @param {Object} suite suite details
      */
-    // beforeSuite: function (suite) {
-    // },
+    beforeSuite: function (suite) {
+        if (lifecycleSpam) {
+            console.log("stuart beforeSuite");
+
+            for (var propName in suite) {
+                let propValue = suite[propName]
+
+                console.log(3 + " beforeSuite -- suite: " + propName, propValue);
+            }
+        }
+
+    },
     /**
-     * Function to be executed before a test (in Mocha/Jasmine) or a step (in Cucumber) starts.
+     * Function to be executed before a test [case - stuart] (in Mocha/Jasmine) or a step (in Cucumber) starts.
      * @param {Object} test test details
      */
     beforeTest: function (test) {
-        global.testTitle = test.title
+        if (lifecycleSpam) {
+
+            console.log("in beforeTest, global.beforeSession: " + global.beforeSession);
+            console.log("in beforeTest, global.onPrepare: " + global.onPrepare);
+
+
+            for (var propName in test) {
+                let propValue = test[propName]
+
+                console.log(3 + " beforeTest -- test: " + propName, propValue);
+            }
+
+            // for (var propName in this) {
+            //     let propValue = this[propName]
+
+            //     console.log(4 + "  beforeTest -- this: " + propName, propValue);
+            // }
+        }
+
+        global.livyLog = ""
+
+        global.testCaseTitle = test.title
         global.testParentTitle = test.parent
+        global.testCaseFullTitle = test.fullTitle
+        global.specFilePath = test.file
+        global.testGrandparentsTitle = test.fullTitle
+        // global.testCaseSpacelessName = test.fullTitle.replace(/ /, "_");
+
+        global.testGrandparentsTitle = global.testGrandparentsTitle.replace(global.testCaseTitle, "");
+        global.testGrandparentsTitle = global.testGrandparentsTitle.replace(global.testParentTitle, "");
+        global.testGrandparentsTitle = global.testGrandparentsTitle.trim();
+
 
         var dateFormat = require('dateformat');
 
         const testDateTime = new Date();
 
-        global.testTime = dateFormat(testDateTime, "hh:MM:ss:lTT");
-        global.testDate = dateFormat(testDateTime, "yyyymmdd");
+        global.testCaseTime = dateFormat(testDateTime, "hh:MM:ss:TT");
+        global.testCaseDate = dateFormat(testDateTime, "yyyymmdd");
+
+
+        const livy = require('./autobot/tools/livy')
+
+        livy.logTestStart()
+
     },
     /**
      * Hook that gets executed _before_ a hook within the suite starts (e.g. runs before calling
@@ -278,41 +411,112 @@ exports.config = {
      * @param {Object} test test details
      */
     afterTest: function (test) {
+        const livy = require('./autobot/tools/livy')
+
         //https://github.com/webdriverio/webdriverio/issues/269
 
         // if test passed, ignore, else take and save screenshot.
         if (test.passed) {
+            livy.logPassed();
             return;
         }
-
-        // var dateFormat = require('dateformat');
-        var fs = require('fs')
-
-        const dir1 = 'log'
-        const dir2 = 'log/' + global.testParentDate
-        const file = dir2 + '/' + global.testTime + ' ' + test.parent + ', ' + test.title + '.png'
-
-        if (!fs.existsSync(dir1)) {
-            fs.mkdirSync(dir1);
+        else {
+            livy.logFailed();
         }
-        if (!fs.existsSync(dir2)) {
-            fs.mkdirSync(dir2);
-        }
+
+        // // var dateFormat = require('dateformat');
+        // var fs = require('fs')
+
+        // const dir1 = 'autobot/log'
+        // const dir2 = 'autobot/log/' + global.specDate
+        // let file = dir2 + '/' + global.testCaseTime + ' ' + test.parent + ', ' + test.title + '.png'
+        // file = file.replace(/\s/g, '_');
+
+        // if (!fs.existsSync(dir1)) {
+        //     fs.mkdirSync(dir1);
+        // }
+        // if (!fs.existsSync(dir2)) {
+        //     fs.mkdirSync(dir2);
+        // }
+
+        // const errorImageFile = livy.getErrorScreenshotFileAbsPath(); //testCaseSpacelessName
 
         // // get current test title and clean it, to use it as file name
         // var filename = encodeURIComponent(test.title.replace(/\s+/g, '-'));
         // // build file path
         // var filePath = this.screenshotPath + filename + '.png';
         // // save screenshot
-        browser.saveScreenshot(file);
-        console.log('\n\tScreenshot location:', file, '\n');
+        browser.saveScreenshot(livy.getErrorScreenshotFileAbsPath());
+
+
+        const imageClickablePath = 'file://' + path.resolve(livy.getErrorScreenshotFileAbsPath());
+
+        console.log('\n\tScreenshot location:', imageClickablePath, '\n');
+
+        livy.logErrorImage();
+
+
+
+        // let html = `<!doctype html><style>body{background-color:#f5f5f5}</style><img src=${imageClickablePath} width=900>`
+
+        // html = html + "<br/> \n" + test.err.stack.replace(/(?:\r\n|\r|\n)/g, '<br>');
+        // html = html + "<br/> <br/> \nduration: " + test.duration;
+        // html = html + "\n<br/><br/><br/>\n" + global.livyLog;
+
+
+        // let htmlfile = dir2 + '/' + global.testCaseTime + ' ' + test.parent + ', ' + test.title + '.html'
+        // htmlfile = htmlfile.replace(/\s/g, '_');
+
+        // fs.appendFileSync(htmlfile, html);
+
+        // const htmlReportPath = 'file://' + path.resolve(htmlfile);
+
+
+        // console.log('\n\tReport location:', htmlReportPath, '\n');
+
+
+        //now save file
+
+        // let htmlErr = test.err.stack.replace(/(?:\r\n|\r|\n)/g, '<br>');
+
+
+        if (lifecycleSpam) {
+
+            console.log("in afterTest, global.beforeSession: " + global.beforeSession);
+            console.log("in afterTest, global.onPrepare: " + global.onPrepare);
+
+            console.log(test.err.message);
+            console.log(test.err.stack);
+
+            console.log(test.err.type);
+            console.log(test.err.expected);
+
+            console.log(test.err.actual);
+
+            for (var propName in test) {
+                let propValue = test[propName]
+
+                console.log("afterTest -- test:  " + propName, propValue);
+            }
+        }
+
     },
     /**
      * Hook that gets executed after the suite has ended
      * @param {Object} suite suite details
      */
-    // afterSuite: function (suite) {
-    // },
+    afterSuite: function (suite) {
+
+        if (lifecycleSpam) {
+
+
+            for (var propName in suite) {
+                let propValue = suite[propName]
+
+                console.log(10 + " afterSuite suite  -  " + propName, propValue);
+            }
+        }
+    },
 
     /**
      * Runs after a WebdriverIO command gets executed
@@ -330,22 +534,92 @@ exports.config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {Array.<String>} specs List of spec file paths that ran
      */
-    // after: function (result, capabilities, specs) {
-    // },
+    after: function (result, capabilities, specs) {
+        if (lifecycleSpam) {
+
+            console.log("stuart after -- global.testCaseFullTitle: " + global.testCaseFullTitle);
+
+
+            console.log("in after, global.beforeSession: " + global.beforeSession);
+            console.log("in after, global.onPrepare: " + global.onPrepare);
+
+
+
+
+            for (var propName in capabilities) {
+                let propValue = capabilities[propName]
+
+                console.log(10 + " after capabilities  -  " + propName, propValue);
+            }
+
+            for (var propName in specs) {
+                let propValue = specs[propName]
+
+                console.log(10 + " after specs  -  " + propName, propValue);
+            }
+        }
+
+    },
     /**
      * Gets executed right after terminating the webdriver session.
      * @param {Object} config wdio configuration object
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {Array.<String>} specs List of spec file paths that ran
      */
-    // afterSession: function (config, capabilities, specs) {
-    // },
+    afterSession: function (config, capabilities, specs) {
+        if (lifecycleSpam) {
+
+            console.log("stuart afterSession -- global.testCaseFullTitle: " + global.testCaseFullTitle);
+
+            console.log("in afterSession, global.beforeSession: " + global.beforeSession);
+            console.log("in afterSession, global.onPrepare: " + global.onPrepare);
+
+            for (var propName in capabilities) {
+                let propValue = capabilities[propName]
+
+                console.log(10 + " afterSession capabilities  -  " + propName, propValue);
+            }
+
+            for (var propName in specs) {
+                let propValue = specs[propName]
+
+                console.log(10 + " afterSession specs  -  " + propName, propValue);
+            }
+        }
+
+    },
     /**
      * Gets executed after all workers got shut down and the process is about to exit.
      * @param {Object} exitCode 0 - success, 1 - fail
      * @param {Object} config wdio configuration object
      * @param {Array.<Object>} capabilities list of capabilities details
      */
-    // onComplete: function(exitCode, config, capabilities) {
-    // }
+    onComplete: function (exitCode, config, capabilities) {
+        if (lifecycleSpam) {
+
+            console.log("stuart onComplete");
+
+            for (var propName in exitCode) {
+                let propValue = exitCode[propName]
+
+                console.log(9 + " onComplete exitCode  -  " + propName, propValue);
+            }
+
+            // for (var propName in config) {
+            //     let propValue = config[propName]
+
+            //     console.log(9 + " onComplete config  -  " + propName, propValue);
+            // }
+
+            for (var propName in capabilities) {
+                let propValue = capabilities[propName]
+
+                console.log(10 + " onComplete capabilities  -  " + propName, propValue);
+            }
+
+
+            console.log("in onComplete, global.beforeSession: " + global.beforeSession);
+            console.log("in onComplete, global.onPrepare: " + global.onPrepare);
+        }
+    }
 }

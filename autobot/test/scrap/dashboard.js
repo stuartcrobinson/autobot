@@ -1,8 +1,8 @@
-import LoginPage from '../../object/page/login.page';
-import DashboardPage from '../../object/page/dashboard.page';
-import ToasterComp from 'object/component/toaster.comp';
-import Table from '../../object/table';
-const livy = require('../../object/livy');
+import LoginPage from '../../object/wordsmith/page/login.page';
+import DashboardPage from '../../object/wordsmith/page/dashboard.page';
+import ToasterComp from 'object/wordsmith/component/toaster.comp';
+import Table from '../../object/wordsmith/table';
+const livy = require('../../tools/livy');
 
 var fs = require('fs');
 
@@ -41,11 +41,11 @@ describe('dashboard', () => {
             });
             it('4. by project', () => {
                 browser.pause(100);
-                livy.log()
+                livy.logAction()
             });
             it('2. by Last Edited', () => {
                 browser.pause(100);
-                livy.log()
+                livy.logAction()
             });
 
         });
@@ -53,19 +53,19 @@ describe('dashboard', () => {
 
             it('1. d by Project', () => {
                 browser.pause(100);
-                livy.log()
+                livy.logAction()
             });
             it('2. d by Last Edited', () => {
                 browser.pause(100);
-                livy.log()
+                livy.logAction()
             });
             it('3. d by Created', () => {
                 browser.pause(100);
-                livy.log()
+                livy.logAction()
             });
             it('4. d by project', () => {
                 browser.pause(100);
-                livy.log()
+                livy.logAction()
             });
 
         });
