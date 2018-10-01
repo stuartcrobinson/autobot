@@ -34,7 +34,7 @@ class LoginPage extends Page {
         assert.isDefined(password, "password should be defined")
 
         //TODO how to deal with opens?  declare per test?  embed in certain/all actions?
-        autobot.goToUrl(url);
+        // autobot.goToUrl(url);
         this.emailInput.setValue(email);
         this.passwordInput.setValue(password);
         this.logInButton.click();

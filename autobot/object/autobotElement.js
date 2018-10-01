@@ -8,7 +8,7 @@ const livy = require('../tools/livy');
 export default class L {
 
 
-    static byText(text){
+    static byText(text) {
         return '//*[text()="' + text + '"]'
     }
 
@@ -34,15 +34,29 @@ export default class L {
         livy.logAction(this.toString());
     }
 
+    logAndWait(message, waiteeSelector) {
+
+        var screenshotId = livy.logAction(message);
+        if (waiteeSelector) {
+            browser.waitForExist(waiteeSelector);
+        }
+        livy.setMouseoverEventScreenshotFunction(screenshotId)
+    }
     click() {
-        livy.logAction('click: ' + this.selector);
-        browser.waitForExist(this.selector);
+        // livy.logAction('Click: ' + this.selector);
+        // browser.waitForExist(this.selector);
+
+        this.logAndWait('Click: ' + this.selector,
+            this.selector);
         browser.click(this.selector)
     }
 
     hover() {
-        livy.logAction('hover: ' + this.selector);
-        browser.waitForExist(this.selector);
+        // livy.logAction('Hover: ' + this.selector);
+        // browser.waitForExist(this.selector);
+
+        this.logAndWait('Hover: ' + this.selector,
+            this.selector);
         browser.moveToObject(this.selector)
     }
 
@@ -50,8 +64,13 @@ export default class L {
 
         const initialIndicatorElementHtml = browser.element(indicatorSelector).getHTML();
 
-        livy.logAction('click: ' + this.selector + ', then wait for change in: ' + indicatorSelector);
-        browser.waitForExist(this.selector);
+        // livy.logAction('click: ' + this.selector + ', then wait for change in: ' + indicatorSelector);
+        // browser.waitForExist(this.selector);
+
+
+        this.logAndWait('Click: ' + this.selector + ', then wait for change in: ' + indicatorSelector,
+            this.selector);
+
         browser.click(this.selector)
 
         const init = new Date().getTime();
@@ -72,8 +91,11 @@ export default class L {
             throw new Error("Element already exists: " + indicatorSelector);
         }
 
-        livy.logAction('Click: ' + this.selector + ', then wait for element to exist: ' + indicatorSelector);
-        browser.waitForExist(this.selector);
+        // livy.logAction('Click: ' + this.selector + ', then wait for element to exist: ' + indicatorSelector);
+        // browser.waitForExist(this.selector);
+        this.logAndWait('Click: ' + this.selector + ', then wait for element to exist: ' + indicatorSelector,
+            this.selector);
+
         browser.click(this.selector)
 
         const init = new Date().getTime();
@@ -94,8 +116,11 @@ export default class L {
             throw new Error("Element [" + indicatorSelector + '] should exist prior to clicking [' + this.selector + ']');
         }
 
-        livy.logAction('Click: ' + this.selector + ', then wait for element to disappear: ' + indicatorSelector);
-        browser.waitForExist(this.selector);
+        // livy.logAction('Click: ' + this.selector + ', then wait for element to disappear: ' + indicatorSelector);
+        // browser.waitForExist(this.selector);
+
+        this.logAndWait('Click: ' + this.selector + ', then wait for element to disappear: ' + indicatorSelector,
+            this.selector);
         browser.click(this.selector)
 
         const init = new Date().getTime();
@@ -112,23 +137,32 @@ export default class L {
     }
 
 
-    click_waitForNotExisting() {
-        this.click_waitForNotExisting(this.selector)
-    }
+    // click_waitForNotExisting() {
+    //     this.click_waitForNotExisting(this.selector)
+    // }
+
+
 
     setValue(value) {
-        livy.logAction('Set value of [' + this.selector + '] to [' + value + ']');
-        browser.waitForExist(this.selector);
+        // livy.logAction('Set value of [' + this.selector + '] to [' + value + ']');
+        // browser.waitForExist(this.selector);
+
+        this.logAndWait('Set value of [' + this.selector + '] to [' + value + ']',
+            this.selector);
+
         browser.setValue(this.selector, value);
+
     }
 
     waitForNotExist() {
-        livy.logAction('waitForNotExist: ' + this.selector)
+        // livy.logAction('waitForNotExist: ' + this.selector)
+        this.logAndWait('waitForNotExist: ' + this.selector)
         browser.waitUntil(() => (!browser.isExisting(this.selector)));
     }
 
     waitForExist() {
-        livy.logAction('waitForExist: ' + this.selector)
+        // livy.logAction('waitForExist: ' + this.selector)
+        this.logAndWait('waitForExist: ' + this.selector)
         browser.waitUntil(() => (browser.isExisting(this.selector)));
     }
 

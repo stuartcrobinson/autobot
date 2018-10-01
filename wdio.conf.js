@@ -1,6 +1,36 @@
 var path = require("path");
 
 lifecycleSpam = false
+//put this stuff in a test to check lifecycle
+
+
+// console.log("in describe('Dashboard', () => { before((), global.beforeSession: "+ global.beforeSession);
+// console.log("in describe('Dashboard', () => { before((), global.onPrepare: "+ global.onPrepare);
+// console.log("in describe('Dashboard', () => { before((), global.testCaseTitle: "+ global.testCaseTitle);
+// console.log("in describe('Dashboard', () => { before((), global.testParentTitle: "+ global.testParentTitle);
+// console.log("in describe('Dashboard', () => { before((), global.testCaseFullTitle: "+ global.testCaseFullTitle);
+// console.log("in describe('Dashboard', () => { before((), global.testCaseTime: "+ global.testCaseTime);
+// console.log("in describe('Dashboard', () => { before((), global.testCaseDate: "+ global.testCaseDate);
+// console.log("in describe('Dashboard', () => { before((), global.specTime: "+ global.specTime);
+// console.log("in describe('Dashboard', () => { before((), global.specDate: "+ global.specDate);
+// console.log("in describe('Dashboard', () => { before((), global.specFilePath: "+ global.specFilePath);
+
+
+
+
+
+
+
+
+
+// console.log("global.testCaseTitle");
+// console.log(global.testCaseTitle);
+// console.log("global.testParentTitle");
+// console.log( global.testParentTitle);
+// console.log("global.testParentParentTitle");
+// console.log(global.testParentParentTitle);
+// console.log("test.parent");
+// console.log(test.parent.title);
 
 exports.config = {
 

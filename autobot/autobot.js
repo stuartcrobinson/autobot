@@ -1,6 +1,7 @@
 const yaml = require('js-yaml');
 const fs = require('fs');
-const livy = require('./tools/livy')
+var livy = require('./tools/livy')
+var livywtf = require('./tools/livywtf')
 var tools = require('./tools/tools')
 
 
@@ -22,9 +23,20 @@ module.exports = {
 
     //maybe this stuff should be broken out into an AutobotBrowser object:
 
+    wtf: function () {
+        console.log('wtffff');
+        livywtf.wtf();
+        livy.wtf();
+    },
     goToUrl: function (url) {
-        livy.logAction("load " + url)
+        var screenshotId = livy.logAction("load " + url);
+        livy.setMouseoverEventScreenshotFunction(screenshotId);
         browser.url(url);
+    },
+    goBack: function () {
+        var screenshotId = livy.logAction("Go back ");
+        livy.setMouseoverEventScreenshotFunction(screenshotId);
+        browser.back();
     },
 
     waitForStableDom: function (timeoutInMillis = 10000) {

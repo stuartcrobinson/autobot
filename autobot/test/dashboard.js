@@ -7,41 +7,12 @@ var fs = require('fs');
 // var assert = require('assert');
 var assert = require('chai').assert;
 var expect = require('chai').expect;
+var autobot = require('../autobot');
+
 
 describe('Dashboard', () => {
 
     before(() => {
-
-
-        // console.log("in describe('Dashboard', () => { before((), global.beforeSession: "+ global.beforeSession);
-        // console.log("in describe('Dashboard', () => { before((), global.onPrepare: "+ global.onPrepare);
-        // console.log("in describe('Dashboard', () => { before((), global.testCaseTitle: "+ global.testCaseTitle);
-        // console.log("in describe('Dashboard', () => { before((), global.testParentTitle: "+ global.testParentTitle);
-        // console.log("in describe('Dashboard', () => { before((), global.testCaseFullTitle: "+ global.testCaseFullTitle);
-        // console.log("in describe('Dashboard', () => { before((), global.testCaseTime: "+ global.testCaseTime);
-        // console.log("in describe('Dashboard', () => { before((), global.testCaseDate: "+ global.testCaseDate);
-        // console.log("in describe('Dashboard', () => { before((), global.specTime: "+ global.specTime);
-        // console.log("in describe('Dashboard', () => { before((), global.specDate: "+ global.specDate);
-        // console.log("in describe('Dashboard', () => { before((), global.specFilePath: "+ global.specFilePath);
-
-
-
-
-
-
-
-
-
-        // console.log("global.testCaseTitle");
-        // console.log(global.testCaseTitle);
-        // console.log("global.testParentTitle");
-        // console.log( global.testParentTitle);
-        // console.log("global.testParentParentTitle");
-        // console.log(global.testParentParentTitle);
-        // console.log("test.parent");
-        // console.log(test.parent.title);
-
-
         loginPage.logIn(global.user.email, global.user.password, global.user.url)
     });
 
@@ -49,7 +20,7 @@ describe('Dashboard', () => {
         dashboardPage.newProjectButton.click();
         createAProjectPage.createProjectButton.waitForExist();
         expect(browser.getTitle()).to.equal('New Project | Wordsmith');
-        browser.back();
+        autobot.goBack();
         dashboardPage.newProjectButton.waitForExist();
     });
 
@@ -72,8 +43,7 @@ describe('Dashboard', () => {
             it('by Project decreasing', () => {
                 const values = dashboardPage.table.sortDecreasing('Project').select('Project').getValues();
                 // console.log(values);
-                expect(Table.isDecreasing(values), 'Project column should be increasing').to.be.true;  //TODO set this to "true" -
-                assert.fail()   //to trigger screenshot
+                assert(Table.isDecreasing(values), 'Project column should be increasing');
             });
         });
 
@@ -92,7 +62,7 @@ describe('Dashboard', () => {
             it('by Project decreasing', () => {
                 const values = dashboardPage.table.sortDecreasing('Project').select('Project').getValues();
                 // console.log(values);
-                expect(Table.isDecreasing(values), 'Project column should be increasing').to.be.true;
+                assert(Table.isDecreasing(values), 'Project column should be increasing');
             });
         });
     });

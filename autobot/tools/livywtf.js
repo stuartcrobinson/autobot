@@ -21,7 +21,7 @@ function passthrough(message) {
 module.exports = {
 
   wtf: function () {
-    console.log('livy wtf');
+    console.log('livywtf wtf');
   },
 
   getSpecFileName: function () {
