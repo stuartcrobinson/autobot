@@ -22,6 +22,7 @@ module.exports = {
 
   wtf: function () {
     console.log('livywtf wtf');
+    return 0;
   },
 
   getSpecFileName: function () {
