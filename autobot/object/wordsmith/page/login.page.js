@@ -35,6 +35,7 @@ class LoginPage extends Page {
 
         //TODO how to deal with opens?  declare per test?  embed in certain/all actions?
         // autobot.goToUrl(url);
+        browser.url(url);
         this.emailInput.setValue(email);
         this.passwordInput.setValue(password);
         this.logInButton.click();

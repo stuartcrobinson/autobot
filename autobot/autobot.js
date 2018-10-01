@@ -1,7 +1,7 @@
 const yaml = require('js-yaml');
 const fs = require('fs');
 var livy = require('./tools/livy')
-var livywtf = require('./tools/livywtf')
+var livywtf = require('./tools/livy')
 var tools = require('./tools/tools')
 
 
@@ -25,7 +25,7 @@ module.exports = {
 
     wtf: function () {
         console.log('wtffff');
-        livywtf.wtf();
+        // livywtf.wtf();
         livy.wtf();
     },
     goToUrl: function (url) {

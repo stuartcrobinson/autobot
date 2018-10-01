@@ -20,9 +20,9 @@ function passthrough(message) {
  */
 module.exports = {
 
-  wtf: function () {
-    console.log('livy wtf');
-  },
+  // wtf: function () {
+  //   console.log('livy wtf');
+  // },
 
   getSpecFileName: function () {
 
@@ -117,7 +117,7 @@ module.exports = {
     /*    style="position:fixed;top:0;right:0;width:600;border:1px solid blue"    */
 
     html += '<img src="" id="image" style="position:fixed;top:0;right:0;height:50%;border:1px solid blue"/>'
-    html += '<iframe src="" id="iframe" style="position:fixed;bottom:0;right:0;height:50%;border:1px solid blue"/>'
+    // html += '<iframe src="" id="iframe" style="position:fixed;bottom:0;right:0;height:50%;border:1px solid blue"/>'
 
     fs.appendFileSync(this.getFile(), html + os.EOL);
   },
@@ -353,18 +353,5 @@ entrySpan${screenshotId}
     this.logReportError(test.err.type, test.err.message, test.err.stack);
     this.setMouseoverEventScreenshotFunction(screenshotId);
 
-    // this.logFail(test.err.type, test.err.message, test.err.stack);
   }
-
-
-  // function1: function () {
-  //   console.log(this.testTitle + " 1, " + this.startTime)
-  // },
-  // function2: function () {
-  //   console.log(this.testTitle + " 2, " + this.startTime)
-  // },
-  // function3: function () {
-  //   console.log(this.testTitle + " 3, " + this.startTime)
-  // }
 }
-

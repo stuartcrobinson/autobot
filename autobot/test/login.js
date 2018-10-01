@@ -10,7 +10,7 @@ var autobot = require('../autobot');
 var autobotwtf = require('../autobotwtf');
 var assert = require('chai').assert;
 var expect = require('chai').expect;
-var livywtf = require('../tools/livywtf');
+var livywtf = require('../tools/livy');
 var livy = require('../tools/livy');
 
 describe('Login @on @off', () => {
@@ -29,12 +29,12 @@ describe('Login @on @off', () => {
 
     it('should succeed with good creds', () => {
 
-        livywtf.wtf();
-        livy.wtf();
-        autobotwtf.wtf();
-        autobot.wtf();
-        autobot.goToUrl(global.user.url);
-        LoginPage.logIn(global.user.email, global.user.password)
+        // // livywtf.wtf();
+        // livy.wtf();
+        // // autobotwtf.wtf();
+        // autobot.wtf();
+        // autobot.goToUrl(global.user.url);
+        LoginPage.logIn(global.user.email, global.user.password, global.user.url)
 
 
         assert.isFalse(!LoginPage.logInButton.isExisting(), 'Login button should be gone.');//TODO remove  "!"" - moved to trigger fail
